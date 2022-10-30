@@ -1,0 +1,31 @@
+[package]
+name = "lu-server"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+argh = "0.1"
+tracing = "0.1.37"
+tracing-subscriber = "0.3"
+bstr = "1.0.1"
+
+# endio, endio_bit and lu_packets need to match
+[dependencies.endio]
+git = "https://github.com/lcdr/endio"
+rev = "6e988eed6d9d3b1fa0edde34062edfb3b01d344a"
+
+[dependencies.endio_bit]
+git = "https://github.com/lcdr/endio_bit"
+rev = "46b1b0eda359dd85b5eabf9714e839c3728c75af"
+
+[dependencies.lu_packets]
+git = "https://github.com/lcdr/lu_packets"
+rev = "ff8f939aed44dad5b4d9b65b9b2e5c868f90f0c5"
+
+[dependencies.raknet]
+git = "https://github.com/LUDevNet/raknet-rs"
+rev = "704e4db0407c6425934b69dae9e85040afd1e3ed"
+
+[dependencies.tokio]
+version = "1.21.2"
+features = ["macros"]
