@@ -24,7 +24,7 @@ rev = "ff8f939aed44dad5b4d9b65b9b2e5c868f90f0c5"
 
 [dependencies.raknet]
 git = "https://github.com/LUDevNet/raknet-rs"
-rev = "704e4db0407c6425934b69dae9e85040afd1e3ed"
+rev = "e6c160a825246dd3e16483e4fb157c3061da0607"
 
 [dependencies.tokio]
 version = "1.21.2"

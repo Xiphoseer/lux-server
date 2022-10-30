@@ -1,11 +1,15 @@
 use argh::FromArgs;
 use endio::LERead;
 use endio::LEWrite;
+use lu_packets::auth::client::ClientMessage as AuthClientMessage;
+use lu_packets::auth::client::LoginResponse;
 use lu_packets::auth::client::LuMessage as ClientLuMessage;
 use lu_packets::auth::client::Message as ClientMessage;
 use lu_packets::auth::server::AuthMessage as ServerAuthMessage;
 use lu_packets::auth::server::LuMessage as ServerLuMessage;
 use lu_packets::auth::server::Message as ServerMessage;
+use lu_packets::common::LuStrExt;
+use lu_packets::common::LuVarWString;
 use lu_packets::common::ServiceId;
 use lu_packets::general::client::GeneralMessage as ClientGeneralMessage;
 use lu_packets::general::client::Handshake as ClientHandshake;
@@ -55,6 +59,17 @@ impl PacketHandler for BasicHandler {
             Ok(ServerMessage::UserMessage(ServerLuMessage::Auth(amg))) => match amg {
                 ServerAuthMessage::LoginRequest(l) => {
                     info!("{:?}", l);
+                    let text = format!(
+                        "Hi @{}! Sorry, but this server is currently under development!",
+                        l.username.to_string()
+                    );
+                    let text = LuVarWString::try_from(text.as_str()).unwrap();
+                    let reply =
+                        AuthClientMessage::LoginResponse(LoginResponse::CustomMessage(text));
+                    let msg = ClientMessage::UserMessage(ClientLuMessage::Client(reply));
+                    let mut bs = BitStreamWrite::new();
+                    LEWrite::write(&mut bs, &msg).unwrap();
+                    _conn.send(bs, raknet::PacketReliability::Reliable);
                 }
             },
             Ok(msg) => warn!("{:?}", msg),
